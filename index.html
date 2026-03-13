@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Compra de ID - Nova York City</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#0a4ea3,#021f4b);
+padding:40px;
+color:white;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+}
+
+.box{
+background:white;
+color:black;
+padding:25px;
+border-radius:10px;
+margin-bottom:25px;
+box-shadow:0 0 15px rgba(0,0,0,0.3);
+}
+
+h1{
+text-align:center;
+}
+
+h2{
+color:#0a4ea3;
+}
+
+.campo{
+margin-bottom:15px;
+}
+
+.campo label{
+font-weight:bold;
+display:block;
+margin-bottom:5px;
+}
+
+.campo input{
+width:100%;
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+padding:12px;
+border:none;
+background:#0a4ea3;
+color:white;
+border-radius:6px;
+cursor:pointer;
+width:100%;
+}
+
+button:hover{
+background:#083b7c;
+}
+
+.resultado{
+margin-top:10px;
+font-weight:bold;
+}
+
+.lista-ids{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+max-height:200px;
+overflow:auto;
+margin-top:10px;
+}
+
+.id-item{
+background:#1565c0;
+color:white;
+padding:6px 10px;
+border-radius:6px;
+font-size:13px;
+}
+
+.tabela{
+font-size:14px;
+margin-top:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🆔 Compra de ID - Nova York City</h1>
+
+<div class="box">
+
+<h2>Pedido de ID</h2>
+
+<div class="campo">
+<label>Nick do jogo</label>
+<input type="text" id="nick">
+</div>
+
+<div class="campo">
+<label>ID atual</label>
+<input type="number" id="idconta">
+</div>
+
+<div class="campo">
+<label>ID desejado</label>
+<input type="number" id="iddesejado" oninput="verificarID()">
+</div>
+
+<div class="campo">
+<label>ID do Discord</label>
+<input type="text" id="discord" placeholder="Somente números">
+</div>
+
+<div id="resultado" class="resultado"></div>
+
+<button onclick="enviarPedido()">Enviar Pedido</button>
+
+</div>
+
+</div>
+
+<div class="box">
+
+<h2>📋 IDs Livres (1 - 1500)</h2>
+
+<div id="listaIDs" class="lista-ids"></div>
+
+</div>
+
+</div>
+
+<script>
+
+const webhookURL = "https://discord.com/api/webhooks/1478622345324138498/aRKdMNCJuccy3BBNLiBmw-R3AvcU6E-WAlfIuHBx7P33U23CB2qCo8uhDl4oJ9oNKeYF";
+
+let idsUsados = [246, 396, 627];
+
+function validarIDDiscord(id){
+
+id = id.replace(/\D/g,'');
+
+if(!/^\d{17,20}$/.test(id)){
+return false;
+}
+
+return true;
+
+}
+
+function calcularPreco(id){
+
+if(id>=1 && id<=10) return 250;
+if(id>=11 && id<=50) return 130;
+if(id>=51 && id<=100) return 100;
+if(id>=101 && id<=300) return 85;
+if(id>=301 && id<=1000) return 60;
+if(id>=1001 && id<=3000) return 45;
+if(id>=3001 && id<=4000) return 20;
+
+return null;
+
+}
+
+function verificarID(){
+
+let id = parseInt(document.getElementById("iddesejado").value);
+let resultado = document.getElementById("resultado");
+
+if(!id){
+resultado.innerHTML="";
+return;
+}
+
+if(idsUsados.includes(id)){
+
+resultado.innerHTML="❌ Esse ID já está em uso.";
+return;
+
+}
+
+let preco = calcularPreco(id);
+
+if(preco === null){
+
+resultado.innerHTML="⚠ ID fora do limite permitido.";
+return;
+
+}
+
+resultado.innerHTML="✅ ID disponível | Valor: R$ "+preco;
+
+}
+
+function gerarPedido(){
+
+let letras="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+let numeros="0123456789";
+let chars=letras+numeros;
+
+let codigo="NYC-ID-";
+
+for(let i=0;i<6;i++){
+
+codigo+=chars.charAt(Math.floor(Math.random()*chars.length));
+
+}
+
+return codigo;
+
+}
+
+function enviarPedido(){
+
+let nick = document.getElementById("nick").value;
+let idconta = document.getElementById("idconta").value;
+let iddesejado = parseInt(document.getElementById("iddesejado").value);
+let discord = document.getElementById("discord").value;
+
+if(!nick || !idconta || !iddesejado || !discord){
+
+alert("Preencha todos os campos.");
+return;
+
+}
+
+if(idsUsados.includes(iddesejado)){
+
+alert("Esse ID já está em uso.");
+return;
+
+}
+
+if(!validarIDDiscord(discord)){
+
+alert("ID do Discord inválido.");
+return;
+
+}
+
+let preco = calcularPreco(iddesejado);
+
+let pedidoID = gerarPedido();
+
+fetch(webhookURL,{
+
+method:"POST",
+headers:{ "Content-Type":"application/json" },
+
+body:JSON.stringify({
+
+content:
+
+"💙 NOVA YORK CITY RP\n\n"+
+
+"📦 PEDIDO DE COMPRA DE ID\n\n"+
+
+"🧾 ID DO PEDIDO: "+pedidoID+"\n\n"+
+
+"👤 NICK: "+nick+"\n"+
+"🆔 ID ATUAL: "+idconta+"\n"+
+"🎯 ID DESEJADO: "+iddesejado+"\n"+
+"💰 VALOR: R$ "+preco+"\n"+
+"🤖 DISCORD: <@"+discord+">"
+
+})
+
+});
+
+alert("✅ Pedido enviado!\nID do pedido: "+pedidoID);
+
+}
+
+function gerarIDsLivres(){
+
+let container=document.getElementById("listaIDs");
+
+for(let i=1;i<=1500;i++){
+
+if(!idsUsados.includes(i)){
+
+let div=document.createElement("div");
+
+div.className="id-item";
+div.innerText=i;
+
+container.appendChild(div);
+
+}
+
+}
+
+}
+
+gerarIDsLivres();
+
+</script>
+
+</body>
+</html>
