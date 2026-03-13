@@ -137,7 +137,7 @@ margin-top:10px;
 
 <div class="box">
 
-<h2>📋 IDs Livres (1 - 4000)</h2>
+<h2>📋 IDs Livres (1 - 1500)</h2>
 
 <div id="listaIDs" class="lista-ids"></div>
 
@@ -149,7 +149,7 @@ margin-top:10px;
 
 const webhookURL = "https://discord.com/api/webhooks/1478622345324138498/aRKdMNCJuccy3BBNLiBmw-R3AvcU6E-WAlfIuHBx7P33U23CB2qCo8uhDl4oJ9oNKeYF";
 
-let idsUsados = [246, 396, 627, 777];
+let idsUsados = [246, 396, 627];
 
 function validarIDDiscord(id){
 
@@ -290,7 +290,7 @@ function gerarIDsLivres(){
 
 let container=document.getElementById("listaIDs");
 
-for(let i=1;i<=4000;i++){
+for(let i=1;i<=1500;i++){
 
 if(!idsUsados.includes(i)){
 
