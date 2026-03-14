@@ -9,23 +9,24 @@
 body{
 margin:0;
 font-family:Arial;
-background:linear-gradient(135deg,#0a4ea3,#021f4b);
-padding:40px;
-color:white;
+background:#0a4ea3;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
 }
 
 .container{
-max-width:900px;
-margin:auto;
+width:100%;
+max-width:600px;
 }
 
 .box{
 background:white;
 color:black;
-padding:25px;
+padding:30px;
 border-radius:10px;
-margin-bottom:25px;
-box-shadow:0 0 15px rgba(0,0,0,0.3);
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
 h1{
@@ -155,6 +156,8 @@ color:white;
 
 <div id="listaIDs" class="lista-ids"></div>
 
+<h3 id="contadorIDs"></h3>
+
 <br>
 
 <button onclick="voltarEtapa()">Voltar</button>
@@ -165,7 +168,7 @@ color:white;
 
 const webhookURL = "https://discord.com/api/webhooks/1478622345324138498/aRKdMNCJuccy3BBNLiBmw-R3AvcU6E-WAlfIuHBx7P33U23CB2qCo8uhDl4oJ9oNKeYF";
 
-let idsUsados = [246, 396, 627];
+let idsUsados = [];
 
 fetch("ids.json")
 .then(res => res.json())
@@ -196,7 +199,9 @@ if(id>=6 && id<=20) return 250;
 if(id>=21 && id<=50) return 130;
 if(id>=51 && id<=100) return 100;
 if(id>=101 && id<=300) return 85;
-if(id>=301 && id<=1500) return 65;
+if(id>=301 && id<=500) return 70;
+if(id>=501 && id<=800) return 45;
+if(id>=801 && id<=1500) return 30;
 
 return null;
 
@@ -326,6 +331,13 @@ alert("✅ Pedido enviado!\nID do pedido: "+pedidoID);
 }
 
 function gerarIDsLista(){
+  
+  let totalIDs = 1500;
+let usados = idsUsados.length;
+let livres = totalIDs - usados;
+
+document.getElementById("contadorIDs").innerText =
+"IDs disponíveis: " + livres;
 
 let container = document.getElementById("listaIDs");
 
@@ -337,15 +349,26 @@ let div = document.createElement("div");
 
 div.className = "id-item";
 
+div.innerText = i;
+
 if(idsUsados.includes(i)){
 
 div.classList.add("id-usado");
-div.innerText = i;
 
 }else{
 
 div.classList.add("id-disponivel");
-div.innerText = i;
+
+/* CLICAR NO ID */
+div.onclick = function(){
+
+document.getElementById("iddesejado").value = i;
+
+voltarEtapa();
+
+verificarID();
+
+};
 
 }
 
