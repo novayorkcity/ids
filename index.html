@@ -9,11 +9,10 @@
 body{
 margin:0;
 font-family:Arial;
-background:#0a4ea3;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
+background:#0a4ea3 url("logo.png") no-repeat center;
+background-size:400px;
+background-attachment:fixed;
+opacity:1;
 }
 
 .container{
@@ -219,7 +218,7 @@ return;
 
 if(idsUsados.includes(id)){
 
-resultado.innerHTML="❌ Esse ID já está em uso.";
+resultado.innerHTML="❌ Esse ID não está disponivel.";
 return;
 
 }
@@ -228,7 +227,7 @@ let preco = calcularPreco(id);
 
 if(preco === null){
 
-resultado.innerHTML="⚠ ID fora do limite permitido.";
+resultado.innerHTML="Esse ID ainda não está na loja.";
 return;
 
 }
