@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Compra de ID - Nova York RolePlay</title>
+<title>Compra de ID - Nova RolePlay</title>
 <style>
 
 body{
@@ -114,7 +114,7 @@ color:white;
 
 <div class="container">
 
-<h1>Compra de ID - Nova York City</h1>
+<h1>Compra de ID - Nova RolePlay</h1>
 
 <div class="box">
 
@@ -221,7 +221,7 @@ return;
 
 if(idsUsados.includes(id)){
 
-resultado.innerHTML="❌ Esse ID não está disponivel.";
+resultado.innerHTML="❌ Esse ID já está em uso.";
 return;
 
 }
@@ -230,7 +230,7 @@ let preco = calcularPreco(id);
 
 if(preco === null){
 
-resultado.innerHTML="Esse ID ainda não está na loja.";
+resultado.innerHTML="Esse ID ainda não está dispnivel para compra.";
 return;
 
 }
