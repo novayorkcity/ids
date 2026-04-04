@@ -144,7 +144,7 @@ color:white;
 
 <div id="resultado"></div>
 
-<button onclick="enviarPedido()">Enviar Pedido</button>
+<button id="btnEnviar" onclick="enviarPedido()">Enviar Pedido</button>
 
 <br><br>
 
@@ -271,7 +271,54 @@ return codigo;
 
 }
 
+  const tempoBloqueio = 60000;
+
+function podeEnviarPedido(){
+    let ultimoPedido = localStorage.getItem("ultimoPedidoID");
+
+    if(!ultimoPedido) return true;
+
+    let agora = Date.now();
+    let diferenca = agora - ultimoPedido;
+
+    if(diferenca < tempoBloqueio){
+        let restante = Math.ceil((tempoBloqueio - diferenca)/1000);
+        alert("⚠️ Aguarde " + restante + " segundos para enviar outro pedido.");
+        return false;
+    }
+
+    return true;
+}
+
+function iniciarContador(){
+    const botao = document.getElementById("btnEnviar");
+    let ultimoPedido = localStorage.getItem("ultimoPedidoID");
+
+    if(!ultimoPedido) return;
+
+    function atualizar(){
+        let agora = Date.now();
+        let diferenca = agora - ultimoPedido;
+
+        if(diferenca < tempoBloqueio){
+            let restante = Math.ceil((tempoBloqueio - diferenca)/1000);
+
+            botao.disabled = true;
+            botao.innerText = "Aguarde " + restante + "s...";
+        } else {
+            botao.disabled = false;
+            botao.innerText = "Enviar Pedido";
+            clearInterval(intervalo);
+        }
+    }
+
+    atualizar();
+    let intervalo = setInterval(atualizar, 1000);
+}
+
 function enviarPedido(){
+
+  if(!podeEnviarPedido()) return;
 
 let nick = document.getElementById("nick").value;
 let idconta = document.getElementById("idconta").value;
@@ -326,6 +373,9 @@ content:
 })
 
 });
+
+  localStorage.setItem("ultimoPedidoID", Date.now());
+iniciarContador();
 
     alert("✅Pedido enviado com sucesso!\n\n"+
           " ID DO PEDIDO: "+pedidoID+"\n"+
@@ -382,6 +432,10 @@ container.appendChild(div);
 }
 
 gerarIDsLista();
+
+  window.onload = function(){
+    iniciarContador();
+  }
 
 </script>
 
