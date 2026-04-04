@@ -151,7 +151,7 @@
         if(idsUsados.includes(id)) { res.innerHTML="<span style='color:red;'>❌ ID em uso.</span>"; return; }
         let preco = calcularPreco(id);
         if(preco === null) { res.innerHTML="ID não disponível."; return; }
-        res.innerHTML="<span style='color:green;'>✅ Disponível | "+preco+" Cash</span>";
+        res.innerHTML="<span style='color:green;'>✅ ID Disponível, tenha os cash já na conta! | "+preco+" Cash</span>";
     }
 
     function proximaEtapa(){ document.getElementById("etapa1").style.display="none"; document.getElementById("etapa2").style.display="block"; }
@@ -211,7 +211,7 @@
                 "👤 **NICK:** " + nick + "\n" +
                 "🆔 **ID ATUAL:** " + idc + "\n" + // Usei 'idc' que criamos acima
                 "🎯 **ID DESEJADO:** " + idd + "\n" + // Usei 'idd'
-                "💰 **VALOR:** " + preco + "CASH\n" +
+                "💰 **VALOR:** " + preco + " CASH\n" +
                 "🤖 **DISCORD:** <@" + disc + ">\n\n" + // Usei 'disc'
                 "<@&1482460048524574942>\n" +
                 "<@&1474052698121834506>\n"
