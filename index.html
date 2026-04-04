@@ -184,46 +184,49 @@
         }, 1000);
     }
 
-    function enviarPedido(){
-        if(!podeEnviarPedido()) return;
-        let nick = document.getElementById("nick").value;
-        let idc = document.getElementById("idconta").value;
-        let idd = parseInt(document.getElementById("iddesejado").value);
-        let disc = document.getElementById("discord").value;
+    function enviarPedido() {
+    if (!podeEnviarPedido()) return;
 
-        if(!nick || !idc || !idd || !disc) return alert("Preencha tudo!");
+    // Pegando os VALORES corretos (.value)
+    let nick = document.getElementById("nick").value;
+    let idc = document.getElementById("idconta").value;
+    let idd = document.getElementById("iddesejado").value;
+    let disc = document.getElementById("discord").value;
+
+    // Validação simples
+    if (!nick || !idc || !idd || !disc) {
+        return alert("Preencha todos os campos corretamente.");
+    }
+
+    let preco = calcularPreco(parseInt(idd));
+    let pedidoID = "NRP-ID-" + Math.random().toString(36).substr(2, 6).toUpperCase();
+
+    fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            content: 
+                "💙 **__NOVA ROLEPLAY - PEDIDO DE COMPRA DE ID__**\n" +
+                "🧾 **ID DO PEDIDO:** `" + pedidoID + "`\n\n" +
+                "👤 **NICK:** " + nick + "\n" +
+                "🆔 **ID ATUAL:** " + idc + "\n" + // Usei 'idc' que criamos acima
+                "🎯 **ID DESEJADO:** " + idd + "\n" + // Usei 'idd'
+                "💰 **VALOR:** R$ " + preco + "\n" +
+                "🤖 **DISCORD:** <@" + disc + ">\n\n" + // Usei 'disc'
+                "<@&1482460048524574942>\n" +
+                "<@&1474052698121834506>\n"
+        })
+    }).then(() => {
+        localStorage.setItem("ultimoPedidoID", Date.now().toString());
         
-        let preco = calcularPreco(idd);
-        let pedidoID = "NRP-ID-" + Math.random().toString(36).substr(2, 6).toUpperCase();
-
-        fetch(webhookURL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                content: 
-"💙 **__NOVA ROLEPLAY - PEDIDO DE COMPRA DE ID__**\n"+
-"🧾 **ID DO PEDIDO:** "+pedidoID+"\n\n"+
-
-"👤 **NICK:** "+nick+"\n"+
-"🆔 **ID ATUAL:** "+idconta+"\n"+
-"🎯 **ID DESEJADO:** "+iddesejado+"\n"+
-"💰 **VALOR:** R$ "+preco+"\n"+
-"🤖 **DISCORD:** <@"+discord+">\n\n"+
-  "<@&1482460048524574942>\n"+
-  "<@&1474052698121834506>\n"
-
-})
-
-});
-        
-localStorage.setItem("ultimoPedidoID", Date.now().toString());
-            iniciarContador();
-        
-    alert("✅Pedido enviado com sucesso!\n\n"+
+            alert("✅Pedido enviado com sucesso!\n\n"+
           " ID DO PEDIDO: "+pedidoID+"\n"+
           " Guarde o ID do pedido, você irá precisar.");
-
+    }).catch(err => {
+        alert("Erro ao enviar para o Discord. Verifique sua conexão.");
+    });
 }
+
 
     function gerarIDsLista(){
         let container = document.getElementById("listaIDs");
