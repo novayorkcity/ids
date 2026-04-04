@@ -5,13 +5,32 @@
 <title>Compra de ID - Nova RolePlay</title>
 <style>
 
-body{
-margin:0;
-font-family:Arial;
-background:linear-gradient(135deg,#0a4ea3,#021f4b);
-padding:40px;
-color:white;
+html, body {
+    height: 100%;            /* Garante que o corpo ocupe a altura toda da tela */
+    margin: 0;
+    padding: 0;
+    display: flex;           /* Ativa o modo de caixa flexível */
+    justify-content: center; /* Centraliza na horizontal */
+    align-items: center;     /* Centraliza na vertical */
+    font-family: sans-serif;
 }
+
+
+body {
+    -webkit-user-select: none;  /* Chrome, Safari, Opera */
+    -moz-user-select: none;     /* Firefox */
+    -ms-user-select: none;      /* IE/Edge */
+    user-select: none;          /* Padrão */
+}
+
+/* Permite selecionar apenas dentro dos inputs para o usuário conseguir digitar */
+input {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
 
 display:flex;
 justify-content:center;
@@ -167,6 +186,15 @@ color:white;
 </div>
 
 <script>
+    // Bloqueia o clique com o botão direito
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    // Bloqueia atalhos de teclado como Ctrl+S (Salvar) e Ctrl+U (Ver código fonte)
+    document.onkeydown = function(e) {
+        if (e.ctrlKey && (e.keyCode === 83 || e.keyCode === 85 || e.keyCode === 73)) {
+            return false;
+        }
+    };
 
 const webhookURL = "https://discord.com/api/webhooks/1478622345324138498/aRKdMNCJuccy3BBNLiBmw-R3AvcU6E-WAlfIuHBx7P33U23CB2qCo8uhDl4oJ9oNKeYF";
 
