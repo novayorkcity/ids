@@ -200,14 +200,30 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                content: "💙 **NOVO PEDIDO DE ID**\nID Pedido: `" + pedidoID + "`\nNick: " + nick + "\nID Atual: " + idc + "\nID Novo: " + idd + "\nValor: R$ " + preco + "\nDiscord: <@" + disc + ">"
-            })
-        }).then(() => {
-            localStorage.setItem("ultimoPedidoID", Date.now().toString());
+                content: 
+"💙 **__NOVA ROLEPLAY - PEDIDO DE COMPRA DE ID__**\n"+
+"🧾 **ID DO PEDIDO:** "+pedidoID+"\n\n"+
+
+"👤 **NICK:** "+nick+"\n"+
+"🆔 **ID ATUAL:** "+idconta+"\n"+
+"🎯 **ID DESEJADO:** "+iddesejado+"\n"+
+"💰 **VALOR:** R$ "+preco+"\n"+
+"🤖 **DISCORD:** <@"+discord+">\n\n"+
+  "<@&1482460048524574942>\n"+
+  "<@&1474052698121834506>\n"
+
+})
+
+});
+        
+localStorage.setItem("ultimoPedidoID", Date.now().toString());
             iniciarContador();
-            alert("Pedido enviado! ID: " + pedidoID);
-        });
-    }
+        
+    alert("✅Pedido enviado com sucesso!\n\n"+
+          " ID DO PEDIDO: "+pedidoID+"\n"+
+          " Guarde o ID do pedido, você irá precisar.");
+
+}
 
     function gerarIDsLista(){
         let container = document.getElementById("listaIDs");
