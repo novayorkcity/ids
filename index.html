@@ -148,10 +148,10 @@
         let id = parseInt(document.getElementById("iddesejado").value);
         let res = document.getElementById("resultado");
         if(!id) { res.innerHTML=""; return; }
-        if(idsUsados.includes(id)) { res.innerHTML="<span style='color:red;'>❌ ID em uso.</span>"; return; }
+        if(idsUsados.includes(id)) { res.innerHTML="<span style='color:red;'>❌ Esse id já tem dono.</span>"; return; }
         let preco = calcularPreco(id);
         if(preco === null) { res.innerHTML="ID não disponível."; return; }
-        res.innerHTML="<span style='color:green;'>✅ ID Disponível! Tenha os Cash já na conta | 💲 Valor "+preco+" Cash</span>";
+        res.innerHTML="<span style='color:green;'>✅ ID Disponível! | 💲 Valor: "+preco+" Cash</span>";
     }
 
     function proximaEtapa(){ document.getElementById("etapa1").style.display="none"; document.getElementById("etapa2").style.display="block"; }
