@@ -1,471 +1,331 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<title>Compra de ID - Nova RolePlay</title>
-<style>
-
-html, body {
-    height: 100%;            /* Garante que o corpo ocupe a altura toda da tela */
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra de ID - Nova RolePlay</title>
+    <style>
+        /* CENTRALIZAÇÃO TOTAL DA PÁGINA */
+        html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
-    display: flex;           /* Ativa o modo de caixa flexível */
-    justify-content: center; /* Centraliza na horizontal */
-    align-items: center;     /* Centraliza na vertical */
+    display: flex;           
+    justify-content: center; 
+    align-items: center;     
     font-family: sans-serif;
+    /* LINHA ALTERADA ABAIXO: Azul marinho para azul real */
+    background: linear-gradient(rgba(10, 78, 163, 0.9), rgba(0, 30, 70, 0.9)), url("logo.png") no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
 }
 
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
 
-body {
-    -webkit-user-select: none;  /* Chrome, Safari, Opera */
-    -moz-user-select: none;     /* Firefox */
-    -ms-user-select: none;      /* IE/Edge */
-    user-select: none;          /* Padrão */
-}
+        input {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
 
-/* Permite selecionar apenas dentro dos inputs para o usuário conseguir digitar */
-input {
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
-}
+        /* CONTAINER DA LOJA */
+        .container {
+            width: 95%;
+            max-width: 450px; /* Largura padrão das suas outras lojas */
+            z-index: 2;
+        }
 
+        .box {
+            background: white;
+            color: black;
+            padding: 25px;
+            border-radius: 12px;
+            border: 3px solid #0a4ea3;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            max-height: 90vh;
+            overflow-y: auto; /* Se o conteúdo crescer, rola dentro da caixa */
+        }
 
-display:flex;
-justify-content:center;
-aling-items:center;
-min-height:100vh;
-}
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 22px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
 
-.container{
-max-width:900
-}
+        h2 {
+            color: #0a4ea3;
+            text-align: center;
+            margin-top: 0;
+        }
 
-.box{
-background:white;
-color:black;
-padding:30px;
-border-radius:10px;
-box-shadow:0 10px 25px rgba(0,0,0,0.3);
-}
+        .campo {
+            margin-bottom: 15px;
+        }
 
-h1{
-text-align:center;
-}
+        .campo label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
 
-h2{
-color:#0a4ea3;
-}
+        .campo input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box; /* Evita que o input saia da caixa */
+        }
 
-.campo{
-margin-bottom:15px;
-}
+        button {
+            padding: 12px;
+            border: none;
+            background: #0a4ea3;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 10px;
+        }
 
-.campo label{
-font-weight:bold;
-display:block;
-margin-bottom:5px;
-}
+        button:hover { background: #083b7c; }
+        button:disabled { background: #cccccc; cursor: not-allowed; }
 
-.campo input{
-width:100%;
-padding:10px;
-border-radius:6px;
-border:1px solid #ccc;
-}
+        #resultado {
+            margin: 10px 0;
+            font-weight: bold;
+            text-align: center;
+            font-size: 14px;
+        }
 
-button{
-padding:12px;
-border:none;
-background:#0a4ea3;
-color:white;
-border-radius:6px;
-cursor:pointer;
-width:100%;
-}
+        .lista-ids {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+            gap: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
 
-button:hover{
-background:#083b7c;
-}
+        .id-item {
+            padding: 8px 0;
+            text-align: center;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
-.resultado{
-margin-top:10px;
-font-weight:bold;
-}
+        .id-disponivel { background: #1565c0; color: white; }
+        .id-usado { background: #e53935; color: white; cursor: not-allowed; opacity: 0.7; }
+        
+        #contadorIDs { font-size: 14px; text-align: center; color: #666; }
 
-.lista-ids{
-display:flex;
-flex-wrap:wrap;
-gap:8px;
-max-height:200px;
-overflow:auto;
-margin-top:10px;
-}
-
-.id-item{
-background:#1565c0;
-color:white;
-padding:6px 10px;
-border-radius:6px;
-font-size:13px;
-}
-
-.tabela{
-font-size:14px;
-margin-top:10px;
-}
-
-.id-disponivel{
-background:#1565c0;
-color:white;
-}
-
-.id-usado{
-background:#e53935;
-color:white;
-}
-
-</style>
+    </style>
 </head>
-
 <body>
 
 <div class="container">
+    <h1>Nova RolePlay</h1>
 
-<h1>Compra de ID - Nova RolePlay</h1>
+    <div class="box">
+        <div id="etapa1">
+            <h2>Pedido de ID</h2>
+            <div class="campo">
+                <label>Nick do jogo</label>
+                <input type="text" id="nick" placeholder="Seu Nick">
+            </div>
+            <div class="campo">
+                <label>ID atual</label>
+                <input type="number" id="idconta" placeholder="ID que você usa hoje">
+            </div>
+            <div class="campo">
+                <label>ID desejado</label>
+                <input type="number" id="iddesejado" oninput="verificarID()" placeholder="Ex: 777">
+            </div>
+            <div class="campo">
+                <label>ID do Discord</label>
+                <input type="text" id="discord" placeholder="Seu ID numérico">
+            </div>
 
-<div class="box">
+            <div id="resultado"></div>
 
-<div id="etapa1">
+            <button id="btnEnviar" onclick="enviarPedido()">Enviar Pedido</button>
+            <button onclick="proximaEtapa()" style="background:#666;">Ver Lista de IDs</button>
+        </div>
 
-<h2>Pedido de ID</h2>
-
-<div class="campo">
-<label>Nick do jogo</label>
-<input type="text" id="nick">
-</div>
-
-<div class="campo">
-<label>ID atual</label>
-<input type="number" id="idconta">
-</div>
-
-<div class="campo">
-<label>ID desejado</label>
-<input type="number" id="iddesejado" oninput="verificarID()">
-</div>
-
-<div class="campo">
-<label>ID do Discord</label>
-<input type="text" id="discord">
-</div>
-
-<div id="resultado"></div>
-
-<button id="btnEnviar" onclick="enviarPedido()">Enviar Pedido</button>
-
-<br><br>
-
-<button onclick="proximaEtapa()">Ver Lista de IDs</button>
-
-</div>
-
-<div id="etapa2" style="display:none;">
-
-<h2>Lista de IDs disponíveis</h2>
-
-<div id="listaIDs" class="lista-ids"></div>
-
-<h3 id="contadorIDs"></h3>
-
-<br>
-
-<button onclick="voltarEtapa()">Voltar</button>
-
+        <div id="etapa2" style="display:none;">
+            <h2>IDs Disponíveis</h2>
+            <div id="contadorIDs"></div>
+            <div id="listaIDs" class="lista-ids"></div>
+            <button onclick="voltarEtapa()" style="background:#9e9e9e;">Voltar</button>
+        </div>
+    </div>
 </div>
 
 <script>
-    // Bloqueia o clique com o botão direito
+    // Segurança
     document.addEventListener('contextmenu', event => event.preventDefault());
-
-    // Bloqueia atalhos de teclado como Ctrl+S (Salvar) e Ctrl+U (Ver código fonte)
     document.onkeydown = function(e) {
-        if (e.ctrlKey && (e.keyCode === 83 || e.keyCode === 85 || e.keyCode === 73)) {
-            return false;
-        }
+        if (e.ctrlKey && (e.keyCode === 83 || e.keyCode === 85 || e.keyCode === 73)) return false;
     };
 
-const webhookURL = "https://discord.com/api/webhooks/1478622345324138498/aRKdMNCJuccy3BBNLiBmw-R3AvcU6E-WAlfIuHBx7P33U23CB2qCo8uhDl4oJ9oNKeYF";
+    const webhookURL = "https://discord.com/api/webhooks/1478622345324138498/aRKdMNCJuccy3BBNLiBmw-R3AvcU6E-WAlfIuHBx7P33U23CB2qCo8uhDl4oJ9oNKeYF";
+    const tempoBloqueio = 60000;
+    let idsUsados = [246, 396, 627];
 
-let idsUsados = [246, 396, 627];
+    // Carregar IDs do arquivo JSON
+    fetch("ids.json")
+        .then(res => res.json())
+        .then(data => {
+            idsUsados = data.ids_usados || [];
+            gerarIDsLista();
+        })
+        .catch(() => {
+            console.log("Erro ao carregar IDs, usando lista padrão.");
+            gerarIDsLista();
+        });
 
-fetch("ids.json")
-.then(res => res.json())
-.then(data =>{
-
-idsUsados = data.ids_usados;
-
-gerarIDsLista();
-
-});
-
-function validarIDDiscord(id){
-
-id = id.replace(/\D/g,'');
-
-if(!/^\d{17,20}$/.test(id)){
-return false;
-}
-
-return true;
-
-}
-
-function calcularPreco(id){
-
-if(id>=1 && id<=5) return 300;
-if(id>=6 && id<=20) return 250;
-if(id>=21 && id<=50) return 130;
-if(id>=51 && id<=100) return 100;
-if(id>=101 && id<=300) return 85;
-if(id>=301 && id<=500) return 70;
-if(id>=501 && id<=800) return 45;
-if(id>=801 && id<=1000) return 30;
-
-return null;
-
-}
-
-function verificarID(){
-
-let id = parseInt(document.getElementById("iddesejado").value);
-let resultado = document.getElementById("resultado");
-
-if(!id){
-resultado.innerHTML="";
-return;
-}
-
-if(idsUsados.includes(id)){
-
-resultado.innerHTML="❌ Esse ID já está em uso.";
-return;
-
-}
-
-let preco = calcularPreco(id);
-
-if(preco === null){
-
-resultado.innerHTML="Esse ID ainda não está dispnivel para compra.";
-return;
-
-}
-
-resultado.innerHTML="✅ ID disponível | Valor: R$ "+preco;
-
-}
-
-function proximaEtapa(){
-
-document.getElementById("etapa1").style.display="none";
-document.getElementById("etapa2").style.display="block";
-
-}
-
-function voltarEtapa(){
-
-document.getElementById("etapa1").style.display="block";
-document.getElementById("etapa2").style.display="none";
-
-}
-
-function gerarPedido(){
-
-let letras="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-let numeros="0123456789";
-let chars=letras+numeros;
-
-let codigo="NRP-ID-";
-
-for(let i=0;i<6;i++){
-
-codigo+=chars.charAt(Math.floor(Math.random()*chars.length));
-
-}
-
-return codigo;
-
-}
-
-  const tempoBloqueio = 60000;
-
-function podeEnviarPedido(){
-    let ultimoPedido = localStorage.getItem("ultimoPedidoID");
-
-    if(!ultimoPedido) return true;
-
-    let agora = Date.now();
-    let diferenca = agora - ultimoPedido;
-
-    if(diferenca < tempoBloqueio){
-        let restante = Math.ceil((tempoBloqueio - diferenca)/1000);
-        alert("⚠️ Aguarde " + restante + " segundos para enviar outro pedido.");
-        return false;
+    function calcularPreco(id) {
+        if(id >= 1 && id <= 5) return 300;
+        if(id >= 6 && id <= 20) return 250;
+        if(id >= 21 && id <= 50) return 130;
+        if(id >= 51 && id <= 100) return 100;
+        if(id >= 101 && id <= 300) return 85;
+        if(id >= 301 && id <= 500) return 70;
+        if(id >= 501 && id <= 800) return 45;
+        if(id >= 801 && id <= 1000) return 30;
+        return null;
     }
 
-    return true;
-}
+    function verificarID() {
+        let id = parseInt(document.getElementById("iddesejado").value);
+        let resultado = document.getElementById("resultado");
+        if(!id) { resultado.innerHTML = ""; return; }
 
-function iniciarContador(){
-    const botao = document.getElementById("btnEnviar");
-    let ultimoPedido = localStorage.getItem("ultimoPedidoID");
+        if(idsUsados.includes(id)) {
+            resultado.innerHTML = "<span style='color:red;'>❌ ID em uso.</span>";
+            return;
+        }
 
-    if(!ultimoPedido) return;
+        let preco = calcularPreco(id);
+        if(preco === null) {
+            resultado.innerHTML = "<span style='color:orange;'>Aguardando liberação.</span>";
+            return;
+        }
+        resultado.innerHTML = "<span style='color:green;'>✅ Disponível | R$ " + preco + "</span>";
+    }
 
-    function atualizar(){
-        let agora = Date.now();
-        let diferenca = agora - ultimoPedido;
+    function proximaEtapa() {
+        document.getElementById("etapa1").style.display = "none";
+        document.getElementById("etapa2").style.display = "block";
+    }
 
-        if(diferenca < tempoBloqueio){
-            let restante = Math.ceil((tempoBloqueio - diferenca)/1000);
+    function voltarEtapa() {
+        document.getElementById("etapa1").style.display = "block";
+        document.getElementById("etapa2").style.display = "none";
+    }
 
-            botao.disabled = true;
-            botao.innerText = "Aguarde " + restante + "s...";
-        } else {
-            botao.disabled = false;
-            botao.innerText = "Enviar Pedido";
-            clearInterval(intervalo);
+    function podeEnviarPedido() {
+        let ultimo = localStorage.getItem("ultimoPedidoID");
+        if(!ultimo) return true;
+        let diferenca = Date.now() - parseInt(ultimo);
+        if(diferenca < tempoBloqueio) {
+            alert("⚠️ Aguarde " + Math.ceil((tempoBloqueio - diferenca)/1000) + "s.");
+            return false;
+        }
+        return true;
+    }
+
+    function iniciarContador() {
+        const botao = document.getElementById("btnEnviar");
+        let ultimo = localStorage.getItem("ultimoPedidoID");
+        if(!ultimo) return;
+
+        let intervalo = setInterval(() => {
+            let agora = Date.now();
+            let diferenca = agora - parseInt(ultimo);
+            if(diferenca < tempoBloqueio) {
+                botao.disabled = true;
+                botao.innerText = "Aguarde " + Math.ceil((tempoBloqueio - diferenca)/1000) + "s";
+            } else {
+                botao.disabled = false;
+                botao.innerText = "Enviar Pedido";
+                clearInterval(intervalo);
+            }
+        }, 1000);
+    }
+
+    function enviarPedido() {
+        if(!podeEnviarPedido()) return;
+
+        let nick = document.getElementById("nick").value;
+        let idconta = document.getElementById("idconta").value;
+        let iddesejado = parseInt(document.getElementById("iddesejado").value);
+        let discord = document.getElementById("discord").value;
+
+        if(!nick || !idconta || !iddesejado || !discord) return alert("Preencha tudo!");
+        if(idsUsados.includes(iddesejado)) return alert("ID em uso!");
+
+        let preco = calcularPreco(iddesejado);
+        let pedidoCod = "NRP-ID-" + Math.random().toString(36).substr(2, 5).toUpperCase();
+
+        fetch(webhookURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                content: "💙 **__NOVA ROLEPLAY - COMPRA DE ID__**\n" +
+                         "🧾 **PEDIDO:** `" + pedidoCod + "`\n\n" +
+                         "👤 **NICK:** " + nick + "\n" +
+                         "🆔 **ID ATUAL:** " + idconta + " | **DESEJADO:** " + iddesejado + "\n" +
+                         "💰 **VALOR:** R$ " + preco + "\n" +
+                         "🤖 **DISCORD:** <@" + discord + ">\n\n" +
+                         "<@&1482460048524574942>"\n" +
+                         "<@&1474052698121834506>"
+            })
+        }).then(() => {
+            localStorage.setItem("ultimoPedidoID", Date.now().toString());
+            iniciarContador();
+            alert("✅ Enviado! ID do Pedido: " + pedidoCod);
+        });
+    }
+
+    function gerarIDsLista() {
+        let container = document.getElementById("listaIDs");
+        document.getElementById("contadorIDs").innerText = "Disponíveis: " + (1000 - idsUsados.length);
+        container.innerHTML = "";
+
+        for(let i=1; i<=1000; i++) {
+            let div = document.createElement("div");
+            div.className = "id-item " + (idsUsados.includes(i) ? "id-usado" : "id-disponivel");
+            div.innerText = i;
+            if(!idsUsados.includes(i)) {
+                div.onclick = () => {
+                    document.getElementById("iddesejado").value = i;
+                    voltarEtapa();
+                    verificarID();
+                };
+            }
+            container.appendChild(div);
         }
     }
 
-    atualizar();
-    let intervalo = setInterval(atualizar, 1000);
-}
-
-function enviarPedido(){
-
-  if(!podeEnviarPedido()) return;
-
-let nick = document.getElementById("nick").value;
-let idconta = document.getElementById("idconta").value;
-let iddesejado = parseInt(document.getElementById("iddesejado").value);
-let discord = document.getElementById("discord").value;
-
-if(!nick || !idconta || !iddesejado || !discord){
-
-alert("Preencha todos os campos.");
-return;
-
-}
-
-if(idsUsados.includes(iddesejado)){
-
-alert("Esse ID já está em uso.");
-return;
-
-}
-
-if(!validarIDDiscord(discord)){
-
-alert("ID do Discord inválido.");
-return;
-
-}
-
-let preco = calcularPreco(iddesejado);
-
-let pedidoID = gerarPedido();
-
-fetch(webhookURL,{
-
-method:"POST",
-headers:{ "Content-Type":"application/json" },
-
-body:JSON.stringify({
-
-content:
-
-"💙 **__NOVA ROLEPLAY - PEDIDO DE COMPRA DE ID__**\n"+
-"🧾 **ID DO PEDIDO:** `" + pedidoID + "`\n\n" +
-
-"👤 **NICK:** "+nick+"\n"+
-"🆔 **ID ATUAL:** "+idconta+"\n"+
-"🎯 **ID DESEJADO:** "+iddesejado+"\n"+
-"💰 **VALOR:** R$ "+preco+"\n"+
-"🤖 **DISCORD:** <@"+discord+">\n\n"+
-  "<@&1482460048524574942>\n"+
-  "<@&1474052698121834506>\n"
-
-})
-
-});
-
-  localStorage.setItem("ultimoPedidoID", Date.now());
-iniciarContador();
-
-    alert("✅Pedido enviado com sucesso!\n\n"+
-          " ID DO PEDIDO: "+pedidoID+"\n"+
-          " Guarde o ID do pedido, você irá precisar.");
-
-}
-
-function gerarIDsLista(){
-  
-  let totalIDs = 1000;
-let usados = idsUsados.length;
-let livres = totalIDs - usados;
-
-document.getElementById("contadorIDs").innerText =
-"IDs disponíveis: " + livres;
-
-let container = document.getElementById("listaIDs");
-
-container.innerHTML = "";
-
-for(let i=1;i<=1000;i++){
-
-let div = document.createElement("div");
-
-div.className = "id-item";
-
-div.innerText = i;
-
-if(idsUsados.includes(i)){
-
-div.classList.add("id-usado");
-
-}else{
-
-div.classList.add("id-disponivel");
-
-/* CLICAR NO ID */
-div.onclick = function(){
-
-document.getElementById("iddesejado").value = i;
-
-voltarEtapa();
-
-verificarID();
-
-};
-
-}
-
-container.appendChild(div);
-
-}
-
-}
-
-gerarIDsLista();
-
-  window.onload = function(){
-    iniciarContador();
-  }
-
+    window.onload = iniciarContador;
 </script>
 
 </body>
 </html>
+
