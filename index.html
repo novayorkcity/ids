@@ -135,14 +135,14 @@
 
     // FUNÇÃO DE PREÇO (QUE TINHA ANTES)
     function calcularPreco(id){
-        if(id>=0 && id<=1) return 500;
+        if(id>=1) return 500;
         if(id>=2 && id<=5) return 300;
         if(id>=6 && id<=20) return 250;
-        if(id>=21 && id<=50) return 130;
-        if(id>=51 && id<=100) return 100;
-        if(id>=101 && id<=300) return 85;
-        if(id>=301 && id<=500) return 70;
-        if(id>=501 && id<=800) return 50;
+        if(id>=21 && id<=100) return 130;
+        if(id>=101 && id<=300) return 100;
+        if(id>=301 && id<=500) return 85;
+        if(id>=501 && id<=600) return 70;
+        if(id>=601 && id<=800) return 50;
         if(id>=801 && id<=1000) return 30;
         return null;
     }
