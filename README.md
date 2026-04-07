@@ -1,1 +1,1 @@
-loja ids off
+ESSA LOJA ESTA DESATIVADA
