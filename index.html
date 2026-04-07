@@ -142,7 +142,7 @@
         if(id>=301 && id<=500) return 85;
         if(id>=501 && id<=600) return 70;
         if(id>=601 && id<=800) return 50;
-        if(id>=801 && id<=1000) return 30;
+        if(id>=801 && id<=999) return 30;
         return null;
     }
 
@@ -232,9 +232,9 @@
 
     function gerarIDsLista(){
         let container = document.getElementById("listaIDs");
-        document.getElementById("contadorIDs").innerText = "Disponíveis: " + (1000 - idsUsados.length);
+        document.getElementById("contadorIDs").innerText = "Disponíveis: " + (999 - idsUsados.length);
         container.innerHTML = "";
-        for(let i=1; i<=1000; i++){
+        for(let i=1; i<=999; i++){
             let div = document.createElement("div");
             div.className = "id-item " + (idsUsados.includes(i) ? "id-usado" : "id-disponivel");
             div.innerText = i;
